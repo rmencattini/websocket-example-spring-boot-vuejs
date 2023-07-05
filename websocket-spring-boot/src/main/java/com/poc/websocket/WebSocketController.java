@@ -12,7 +12,6 @@ public class WebSocketController {
     private final SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
     public void greeting(String message) {
         messagingTemplate.convertAndSend("/topic/greetings", "Hello, " + message + "!");
         messagingTemplate.convertAndSend("/alert/trigger", "");
