@@ -22,7 +22,7 @@ Vuejs project uses port `7000`.
 ## Websocket-spring-boot
 
 At the root of the `websocket-example-spring-boot-vuejs`:
-```
+```bash
 cd websocket-spring-boot
 ./gradlew bootRun
 ```
@@ -30,7 +30,7 @@ cd websocket-spring-boot
 ## Websocket-vuejs
 At the root of the `websocket-example-spring-boot-vuejs`:
 
-```
+```bash
 cd websocket-vuejs
 npm install
 npm run dev
@@ -40,7 +40,7 @@ npm run dev
 
 ### Spring
 
-```
+```java
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic", "/alert"); // 1)
@@ -63,7 +63,7 @@ npm run dev
 Here is a diagram of the architecture: ![architecture diagram](https://assets.toptal.io/images?url=https%3A%2F%2Fuploads.toptal.io%2Fblog%2Fimage%2F129598%2Ftoptal-blog-image-1555593632876-e8be5fa57853689bab282bb8be341130.png)
 (_source: https://www.toptal.com/java/stomp-spring-boot-websocket_)
 
-```
+```java
 @Controller
 @RequiredArgsConstructor
 public class WebSocketController {
@@ -84,7 +84,7 @@ public class WebSocketController {
 
 ### Vuejs
 
-```
+```typescript
 const stompClient = new Stomp.Client({ // 1)
   brokerURL: 'ws://localhost:7100/websocket', // 2)
   onConnect() { // 3)
