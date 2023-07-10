@@ -114,7 +114,14 @@ stompClient.activate(); // 6)
 5. Send body to a determined destination. It is prefixed by `/app` for the Spring controller to handle it.
 6. Activate the client we created (rephrased: fire the connection to the STOMP server)
 
+### Keycloak
+
+The config in the `oaut2-server` folder contains one realm: `dummy` and one couple user/password: `foo` / `bar`.
+
 
 ## Usefull links:
 * https://www.toptal.com/java/stomp-spring-boot-websocket
 * https://spring.io/guides/gs/messaging-stomp-websocket/
+* https://howtodoinjava.com/devops/keycloak-export-import-realm/
+* https://rob-ferguson.me/getting-started-with-keycloak/
+
