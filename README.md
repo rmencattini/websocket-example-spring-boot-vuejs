@@ -4,22 +4,28 @@ An working example of Spring boot backend and Vuejs frontend on different URL.
 I created this small project to tackle few issues I encouterd on other tutorials.
 The main one was that all project ran FE on the same URL than BE. It makes the stuff easier for allowed origins and url management.
 
-# Requirements
+## Requirements
 
-To run both projects you will need:
+To run both projects you will either:
 * java 17
 * node 18
 
-# Run
+or `docker-compose`
 
-You will need to run both project separatly. Then you can go to http://localhost:7000 and test this small webapp.
+## Run
+
+There is two way to run it. As dev and as docker.
+
+### Dev run
+
+You will need to run all projects separatly. Then you can go to http://localhost:7000 and test this small webapp.
 
 Spring project will run on port `7100`.
 
 Vuejs project uses port `7000`.
 
 
-## Websocket-spring-boot
+#### Websocket-spring-boot
 
 At the root of the `websocket-example-spring-boot-vuejs`:
 ```bash
@@ -27,13 +33,33 @@ cd websocket-spring-boot
 ./gradlew bootRun
 ```
 
-## Websocket-vuejs
+#### Websocket-vuejs
 At the root of the `websocket-example-spring-boot-vuejs`:
 
 ```bash
 cd websocket-vuejs
 npm install
 npm run dev
+```
+
+#### Keycloak
+
+```
+docker run --name keycloak -p 8080:8080 \
+     -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin \
+     -v ./oauth2-server:/opt/keycloak/data/import \
+     quay.io/keycloak/keycloak:latest \
+     start-dev \
+     --http-port 8080 \
+     --http-relative-path /auth \
+     --import-realm
+```
+
+### Docker-compose run
+
+Simply go to the root of project and run:
+```
+docker-compose up
 ```
 
 ## Code breakdown
@@ -124,4 +150,3 @@ The config in the `oaut2-server` folder contains one realm: `dummy` and one coup
 * https://spring.io/guides/gs/messaging-stomp-websocket/
 * https://howtodoinjava.com/devops/keycloak-export-import-realm/
 * https://rob-ferguson.me/getting-started-with-keycloak/
-

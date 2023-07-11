@@ -20,3 +20,11 @@ services:
     volumes:
       - ./oauth2-server:/opt/keycloak/data/import
     command: start-dev --http-port 8080 --http-relative-path /auth --import-realm
+
+  backend:
+    container_name: backend
+    build:
+      context: ./websocket-spring-boot
+      dockerfile: Dockerfile
+    ports:
+      - 7100:7100
