@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: frontend
+    build: 
+      context: ./websocket-vue
+      dockerfile: Dockerfile
+    ports:
+      - 7000:7000
+  
+  oauth-server:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - ./oauth2-server:/opt/keycloak/data/import
+    command: start-dev --http-port 8080 --http-relative-path /auth --import-realm
+
+  backend:
+    container_name: backend
+    build:
+      context: ./websocket-spring-boot
+      dockerfile: Dockerfile
+    ports:
+      - 7100:7100

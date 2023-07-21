@@ -25,6 +25,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+springBoot {
+  mainClass = 'com.poc.websocket.WebsocketApplication'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
