@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import * as Stomp from "@stomp/stompjs";
+import axios from "axios";
 
 const result = ref<string>("");
 const connected = ref<boolean>(false);
@@ -9,6 +10,16 @@ const shake = ref<boolean>(false);
 
 function sendGrettings(): void {
   stompClient.publish({destination: '/app/hello', body: name.value})
+}
+
+function login(): void {
+  window.location.href = "http://localhost:8080/auth/realms/dummy/protocol/openid-connect/auth?response_type=token&client_id=websocket&redirect_uri=http://localhost:7000/"
+}
+
+function doRestCall(): void {
+  axios.get("http://localhost:7100/external")
+  .then(() => document.getElementById("rest-call")!.style.backgroundColor = "green")
+  .catch(() => document.getElementById("rest-call")!.style.backgroundColor = "red")
 }
 
 const stompClient = new Stomp.Client({
@@ -29,9 +40,23 @@ const stompClient = new Stomp.Client({
 
 stompClient.activate();
 
+(function onCreate():void {
+  const token = new URL(location.href).searchParams.get('access_token')
+  console.log(new URL(location.href))
+  axios.defaults.headers.common.Authorization = "Bearer " + token;
+})()
+
+// TODO: use vue-router to better do redirection
+// TODO: get path params
+// TODO: add proper path params to axios
+
 </script>
 
 <template>
+  <div class="top-right">
+    <button type="submit" @click="login()">Login</button>
+    <button id="rest-call" type="submit" @click="doRestCall()">Rest call</button>
+  </div>
   <div>
     <img src="/vite.svg" class="logo" :class="{shake: shake}" alt="Vite logo" />
     <img src="./assets/vue.svg" class="logo vue" :class="{shake: shake}" alt="Vue logo" />
@@ -44,6 +69,11 @@ stompClient.activate();
 </template>
 
 <style scoped>
+.top-right {
+  position: fixed;
+  top: 3%;
+  right: 3%;
+}
 .logo {
   height: 6em;
   padding: 1.5em;

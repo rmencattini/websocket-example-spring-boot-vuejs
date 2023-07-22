@@ -1,4 +1,4 @@
-package com.poc.websocket;
+package com.poc.websocket.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
