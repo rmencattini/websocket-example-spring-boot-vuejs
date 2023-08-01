@@ -32,6 +32,7 @@ At the root of the `websocket-example-spring-boot-vuejs`:
 cd websocket-spring-boot
 ./gradlew bootRun
 ```
+:warning: The keycloak docker should be running before starting the BE.
 
 #### Websocket-vuejs
 At the root of the `websocket-example-spring-boot-vuejs`:
@@ -143,6 +144,23 @@ stompClient.activate(); // 6)
 ### Keycloak
 
 The config in the `oaut2-server` folder contains one realm: `dummy` and one couple user/password: `foo` / `bar`.
+
+
+## Notes
+
+Configure `CORS` in two places:
+```java
+@EnableWebMvc
+public class WebMvcConfig implements WebMvcConfigurer {
+```
+```java
+@EnableWebSecurity
+class SecurityConfig {
+    //...
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+```
+can create `CORS not allowed` on the FE.
 
 
 ## Usefull links:
