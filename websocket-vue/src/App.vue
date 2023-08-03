@@ -27,7 +27,10 @@ function doRestCall(): void {
 
 // TODO: make the websocket call working with access_token
 const stompClient = new Stomp.Client({
-  brokerURL: 'ws://localhost:7100/websocket?access_token=' + KeyCloakService.keycloakInstance.token,
+  brokerURL: `ws://localhost:7100/websocket?access_token=${KeyCloakService.keycloakInstance.token}`,
+  connectHeaders: {
+   'Authorization': `Bearer ${KeyCloakService.keycloakInstance.token}`
+  },
   onConnect() {
       connected.value = true;
       stompClient.subscribe('/topic/greetings', (message: Stomp.IMessage) => {
