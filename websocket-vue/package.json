@@ -9,7 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.4.0",
+    "keycloak-js": "^22.0.1",
     "vue": "^3.2.47",
+    "vue-router": "^4.2.4",
     "webstomp-client": "^1.2.6"
   },
   "devDependencies": {

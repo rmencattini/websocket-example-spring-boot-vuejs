@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import * as Stomp from "@stomp/stompjs";
+import axios from "axios";
+import KeyCloakService from './services/KeycloakService';
 
 const result = ref<string>("");
 const connected = ref<boolean>(false);
@@ -8,7 +10,19 @@ const name = ref<string>("");
 const shake = ref<boolean>(false);
 
 function sendGrettings(): void {
-  stompClient.publish({destination: '/app/hello', body: name.value})
+  stompClient.publish({destination: '/app/hello', body: name.value, headers: {"Authorization": `Bearer ${KeyCloakService.keycloakInstance.token}`}})
+}
+
+function logout(): void {
+    KeyCloakService.keycloakInstance.logout();
+}
+
+function doRestCall(): void {
+  axios.get("http://localhost:7100/external", {headers: {
+    Authorization: 'Bearer ' + KeyCloakService.keycloakInstance.token
+  }})
+  .then(() => document.getElementById("rest-call")!.style.backgroundColor = "green")
+  .catch(() => document.getElementById("rest-call")!.style.backgroundColor = "red")
 }
 
 const stompClient = new Stomp.Client({
@@ -32,18 +46,27 @@ stompClient.activate();
 </script>
 
 <template>
+  <div class="top-right">
+    <button type="submit" style="margin-right: 2rem;" @click="logout()">Logout</button>
+    <button id="rest-call" type="submit" @click="doRestCall()">Rest call</button>
+  </div>
   <div>
     <img src="/vite.svg" class="logo" :class="{shake: shake}" alt="Vite logo" />
     <img src="./assets/vue.svg" class="logo vue" :class="{shake: shake}" alt="Vue logo" />
   </div>
   <div v-if="!connected">Waiting for websocket connection</div>
-  <button v-else class="button" type="submit" @click="sendGrettings()">Send grettings to: </button><input v-model="name" placeholder="Name to be greeted">
+  <button v-else class="button" type="submit" @click="sendGrettings()">Send grettings to: </button><input v-model="name" @keyup.enter="sendGrettings()" placeholder="Name to be greeted">
   <br>
   <br>
   Results: {{  result }}
 </template>
 
-<style scoped>
+<style scoped lang="css">
+.top-right {
+  position: fixed;
+  top: 3%;
+  right: 3%;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
