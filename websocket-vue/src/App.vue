@@ -10,7 +10,7 @@ const name = ref<string>("");
 const shake = ref<boolean>(false);
 
 function sendGrettings(): void {
-  stompClient.publish({destination: '/app/hello', body: name.value})
+  stompClient.publish({destination: '/app/hello', body: name.value, headers: {"Authorization": `Bearer ${KeyCloakService.keycloakInstance.token}`}})
 }
 
 function logout(): void {
@@ -25,12 +25,8 @@ function doRestCall(): void {
   .catch(() => document.getElementById("rest-call")!.style.backgroundColor = "red")
 }
 
-// TODO: make the websocket call working with access_token
 const stompClient = new Stomp.Client({
-  brokerURL: `ws://localhost:7100/websocket?access_token=${KeyCloakService.keycloakInstance.token}`,
-  connectHeaders: {
-   'Authorization': `Bearer ${KeyCloakService.keycloakInstance.token}`
-  },
+  brokerURL: 'ws://localhost:7100/websocket',
   onConnect() {
       connected.value = true;
       stompClient.subscribe('/topic/greetings', (message: Stomp.IMessage) => {

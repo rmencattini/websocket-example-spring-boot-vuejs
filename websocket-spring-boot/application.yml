@@ -1,19 +1,2 @@
 server:
   port: 7100
-
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/auth/realms/dummy
-      client:
-        provider:
-          keycloak:
-            issuer-uri: http//localhost:8080/auth/realms/dummy
-            user-name-attribute: preferred_username
-        registration:
-          keycloak:
-            client-id: websocket
-            authorization-grant-type: authorization_code
-            scope: openid,role
