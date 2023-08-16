@@ -147,9 +147,6 @@ public class WebSocketController {
 3. `Principal` is the authenticated user passed. It is set during a `preSend` hook configured during websocket configuration.
 4. Use the injected component to send message to two channels.
 
-=======
-4. As we have different URL/port, we need to allow some origin to avoid CORS issue.
-
 
 ### Vuejs
 
